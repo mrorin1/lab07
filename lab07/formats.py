@@ -6,10 +6,10 @@ def csv_to_records(text):
     lines = [line for line in lines if line.strip() != ""]
     if not lines:
         return []
-    header = lines[0].split(",")
+    header = [name.strip() for name in lines[0].split(",")]
     records = []
     for line in lines[1:]:
-        values = line.split(",")
+        values = [value.strip() for value in line.split(",")]
         records.append(dict(zip(header, values)))
     return records
 
@@ -25,7 +25,7 @@ def _convert(value):
     except ValueError:
         pass
     try:
-        return float(value)
+        return float(value.replace(",", "."))
     except ValueError:
         pass
     return value
@@ -57,7 +57,7 @@ def parse_settings(lines):
     return result
 
 
-def merge_by_key(rows, extra, key):
+def merge_by_key(rows, extra, key="id"):
     merged = []
     for row in rows:
         info = extra.get(row.get(key))
