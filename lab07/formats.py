@@ -23,8 +23,8 @@ def _convert(value):
         return False
     if re.fullmatch(r"[+-]?[0-9]+", value):
         return int(value)
-    if re.fullmatch(r"[+-]?[0-9]+\.[0-9]+", value):
-        return float(value)
+    if re.fullmatch(r"[+-]?[0-9]+[.,][0-9]+", value):
+        return float(value.replace(",", "."))
     return value
 
 
