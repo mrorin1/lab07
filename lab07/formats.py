@@ -1,4 +1,5 @@
 import json
+import re
 
 
 def csv_to_records(text):
@@ -20,14 +21,10 @@ def _convert(value):
         return True
     if lowered in ("false", "no"):
         return False
-    try:
+    if re.fullmatch(r"[+-]?[0-9]+", value):
         return int(value)
-    except ValueError:
-        pass
-    try:
-        return float(value.replace(",", "."))
-    except ValueError:
-        pass
+    if re.fullmatch(r"[+-]?[0-9]+\.[0-9]+", value):
+        return float(value)
     return value
 
 
